@@ -54,8 +54,3 @@ COPY o-voxel /tmp/o-voxel
 RUN pip install /tmp/o-voxel --no-build-isolation && \
     rm -rf /tmp/o-voxel
 
-# Copy TRELLIS code
-COPY . /app
-
-ENV OPENCV_IO_ENABLE_OPENEXR=1
-ENV PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True

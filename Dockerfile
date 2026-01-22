@@ -16,6 +16,8 @@ RUN ln -sf /usr/bin/python3.10 /usr/bin/python && \
 
 WORKDIR /app
 
+RUN pip install --no-cache-dir --upgrade pip setuptools>=61.0 wheel
+
 # PyTorch with CUDA 12.4
 RUN pip install --no-cache-dir torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
 
@@ -23,11 +25,11 @@ RUN pip install --no-cache-dir torch==2.6.0 torchvision==0.21.0 --index-url http
 RUN pip install --no-cache-dir \
     imageio imageio-ffmpeg tqdm easydict opencv-python-headless ninja \
     trimesh transformers gradio==6.0.1 tensorboard pandas lpips zstandard \
-    kornia timm pillow-simd \
+    kornia timm pillow-simd psutil \
     git+https://github.com/EasternJournalist/utils3d.git@9a4eb15e4021b67b12c460c7057d642626897ec8
 
 # Flash attention
-RUN pip install --no-cache-dir flash-attn==2.7.3
+RUN pip install --no-cache-dir flash-attn==2.7.3 --no-build-isolation
 
 # nvdiffrast
 RUN git clone -b v0.4.0 https://github.com/NVlabs/nvdiffrast.git /tmp/nvdiffrast && \
@@ -53,4 +55,3 @@ RUN git clone --recursive https://github.com/JeffreyXiang/FlexGEMM.git /tmp/Flex
 COPY o-voxel /tmp/o-voxel
 RUN pip install /tmp/o-voxel --no-build-isolation && \
     rm -rf /tmp/o-voxel
-
